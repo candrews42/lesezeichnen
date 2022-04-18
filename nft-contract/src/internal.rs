@@ -20,7 +20,7 @@ pub(crate) fn refund_deposit(storage_used: u64) {
 
     //make sure the attached deposit is >= required cost
     assert!(
-        required_cost <= attached deposit,
+        required_cost <= attached_deposit,
         "Must attach {} yoctoNEAR to cover storage", required_cost,
     );
 
