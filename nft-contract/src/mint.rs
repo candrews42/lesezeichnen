@@ -31,7 +31,7 @@ impl Contract {
         self.internal_add_token_to_owner(&token.owner_id, &token_id);
         
         //calculate the required storage which was used
-        let required_storage_in_bytes = env::storage_used() - initial_storage_usage;
+        let required_storage_in_bytes = env::storage_usage() - initial_storage_usage;
 
         //refund any excess storage if the user attached too much. Panic if they didn't attach enough to cover reuired
         refund_deposit(required_storage_in_bytes);
