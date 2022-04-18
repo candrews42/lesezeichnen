@@ -7,12 +7,14 @@ use near_sdk::{
     env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,
 };
 
+use crate::internal::*;
 pub use crate::metadata::*;
 pub use crate::mint::*;
 pub use crate::nft_core::*;
 pub use crate::approval::*;
 pub use crate::royalty::*;
 
+mod internal;
 mod approval; 
 mod enumeration; 
 mod metadata; 
@@ -81,20 +83,20 @@ impl Contract {
         the owner_id. 
     */
     #[init]
-    pub fn new(owner_id: AccountId, metadata: NFTContractMetadata) {
+    pub fn new(owner_id: AccountId, metadata: NFTContractMetadata) -> Self {
         //creat a variable of type Self with all the fields inititialized.
-        Let this = Self {
+        let this = Self {
             //storage keys are prefixes used for the collections to avoid data collision
             tokens_per_owner: LookupMap::new(StorageKey::TokensPerOwner.try_to_vec().unwrap()),
             tokens_by_id: LookupMap::new(StorageKey::TokensById.try_to_vec().unwrap()),
-            token_metadata_by_id: Unordered Map::new(StorageKey::TokenMetadataById.try_to_vec().unwrap()),
+            token_metadata_by_id: UnorderedMap::new(StorageKey::TokenMetadataById.try_to_vec().unwrap()),
             //set the owner_id field equal to the passed in owner_id
             owner_id,
             metadata: LazyOption::new(
                 StorageKey::NFTContractMetadata.try_to_vec().unwrap(),
                 Some(&metadata),
             ),
-        }
+        };
         //return the Contract object
         this
     }
