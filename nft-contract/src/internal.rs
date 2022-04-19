@@ -79,6 +79,11 @@ pub(crate) fn refund_deposit(storage_used: u64) {
     }
 }
 
+//convert the royalty percentage and amount to pay into a payout (U128)
+pub(crate) fn royalty_to_payout(royalty_percentage: u32, amount_to_pay: Balance) -> U128 {
+    U128(royalty_percentage as u128 * amount_to_pay / 10_000u128)
+}
+
 impl Contract {
     //add a token to the set of tokens an owner has
     pub(crate) fn internal_add_token_to_owner(
@@ -184,6 +189,8 @@ impl Contract {
             //reset the approval account IDs
             approved_account_ids: Default::default(),
             next_approval_id: token.next_approval_id,
+            //we copy over the royalties from the previous token
+            royalty: token.royalty.clone(),
         };
         //insert new token into the tokens_by_id, replacing the old entry
         self.tokens_by_id.insert(token_id, &new_token);
