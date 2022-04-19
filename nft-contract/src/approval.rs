@@ -14,7 +14,7 @@ pub trait NonFungibleTokenCore {
         token_id: TokenId,
         approved_account_id: AccountId,
         approval_id: Option<u64>,
-    );
+    ) -> bool;
 
     //revoke a specific account from transferring the token on your behalf
     fn nft_revoke(&mut self, token_id: TokenId, account_id: AccountId);
@@ -100,25 +100,71 @@ impl NonFungibleTokenCore for Contract {
         token_id: TokenId,
         approved_account_id: AccountId,
         approval_id: Option<u64>,
-    ) {
-        /*
-            FILL THIS IN
-        */
+    ) -> bool {
+        //get the token object from the token_id
+        let token = self.tokens_by_id.get(&token_id).expect("No token");
+
+        //get the approval for the passed in account ID
+        let approval = token.approved_account_ids.get(&approved_account_id);
+
+        //if the was some approval ID found for the account ID
+        if let Some(approval) = approval {
+            //if a specific approval_id was passed into the function
+            if let Some(approval_id) = approval_id {
+                //return if the approval ID passed in matches the actual appoval ID for the account
+                approval_id == *approval
+            } else {
+                true
+            }
+        } else {
+            false
+        }
     }
 
     //revoke a specific account from transferring the token on your behalf 
     #[payable]
     fn nft_revoke(&mut self, token_id: TokenId, account_id: AccountId) {
-        /*
-            FILL THIS IN
-        */
+        assert_one_yocto();
+        //get the token object using the passed in token_id
+        let mut token = self.tokens_by_id.get(&token_id).expect("No toekn");
+
+        //get the caller of the function and assert that they are the owner of the token
+        let predecessor_account_id = env::predecessor_account_id();
+        assert_eq!(&predecessor_account_id, &token.owner_id);
+
+        //if the account ID was in the token's approval, we remove it and the if statement logic executes
+        if token
+            .approved_account_ids
+            .remove(&account_id)
+            .is_some()
+
+        {
+            //refund the funds released by removing the approved_account_id to the caller of the function
+            refund_approved_account_ids_iter(predecessor_account_id, [account_id].iter());
+            //insert the token back into the tokens_by_id collection with the account_id removed from the approval list
+            self.tokens_by_id.insert(&token_id, &token);
+        }
     }
 
     //revoke all accounts from transferring the token on your behalf
     #[payable]
     fn nft_revoke_all(&mut self, token_id: TokenId) {
-        /*
-            FILL THIS IN
-        */
+        assert_one_yocto();
+        //get the token object using the passed in token_id
+        let mut token = self.tokens_by_id.get(&token_id).expect("No token");
+
+        //get the caller of the function and assert that they are the owner of the token
+        let predecessor_account_id = env::predecessor_account_id();
+        assert_eq!(&predecessor_account_id, &token.owner_id);
+
+        //if the account ID was in the token's approval, we remove it and the if statement logic executes
+        if token.approved_account_ids.is_empty() {
+            //refund the approved account_ids to the caller of the function
+            refund_approved_account_ids(predecessor_account_id, &token.approved_account_ids);
+            //clear the approved account IDs
+            token.approved_account_ids.clear();
+            //insert the token back into the tokens_by_id collection with the approved account IDs cleared
+            self.tokens_by_id.insert(&token_id, &token);
+        }
     }
 }
