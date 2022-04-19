@@ -25,7 +25,7 @@ pub trait NonFungibleTokenCore {
     );
 
     //get information about the NFT token passed in
-    fn nft_token(&self, token_id: TokenId);
+    fn nft_token(&self, token_id: TokenId) -> Option<JsonToken>;
 }
 
 #[ext_contract(ext_non_fungible_token_receiver)]

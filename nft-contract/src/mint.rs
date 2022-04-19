@@ -5,9 +5,9 @@ impl Contract {
     #[payable]
     pub fn nft_mint(
         &mut self,
-        token_id: Option<TokenId>,
+        token_id: TokenId,
         metadata: TokenMetadata,
-        receiver_id: Option<AccountId>,
+        receiver_id: AccountId,
     ) {
         //measure the initial storage being used on the contract
         let initial_storage_usage = env::storage_usage();
