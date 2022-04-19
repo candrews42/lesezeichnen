@@ -16,6 +16,10 @@ impl Contract {
         let token = Token {
             //set the owner ID equal to the receiever ID passed into the function
             owner_id: receiver_id, 
+            //approved account IDs to the default value
+            approved_account_ids: Default::default(),
+            //next approval ID is set to 0
+            next_approval_id: 0,
         };
 
         //insert the token ID and token struct and make sure that the token doesn't exist

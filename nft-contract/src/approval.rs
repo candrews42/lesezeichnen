@@ -41,9 +41,57 @@ impl NonFungibleTokenCore for Contract {
     //allow a specific account ID to approve a token on your behalf
     #[payable]
     fn nft_approve(&mut self, token_id: TokenId, account_id: AccountId, msg: Option<String>) {
-        /*
-            FILL THIS IN
-        */
+        assert_at_least_one_yocto();
+
+        //get the token object from the token Id
+        let mut token = self.tokens_by_id.get(&token_id).expect("No token");
+
+        //make sure person calling function is the owner
+        assert_eq!(
+            &env::predecessor_account_id(),
+            &token.owner_id,
+            "Predecessor must be the token owner."
+        );
+
+        //get the next approval ID if we need a new approval
+        let approval_id: u64 = token.next_approval_id;
+
+        //check if the account has been approved already for this token
+        let is_new_approval = token
+            .approved_account_ids
+            //insert returns none if the key was not present
+            .insert(account_id.clone(), approval_id)
+            //if the key was not present, .is_none() will return true so it is a new approval
+            .is_none();
+
+        //if it was a new approval, calculate how much storage is being used
+        let storage_used = if is_new_approval {
+            bytes_for_approved_account_id(&account_id)
+        } else {
+            0
+        };
+
+        //increment the token's next approval ID by 1
+        token.next_approval_id += 1;
+        //insert the token back into the tokens_by_id collection
+        self.tokens_by_id.insert(&token_id, &token);
+
+        //refund any excess storage atteched by the user, or panic
+        refund_deposit(storage_used);
+
+        //if some message was passed into the function, initiate a cross contract call on the account we're giving access
+        if let Some(msg) = msg {
+            ext_non_fungible_approval_receiver::nft_on_approve(
+                token_id,
+                token.owner_id,
+                approval_id,
+                msg,
+                account_id,
+                NO_DEPOSIT,
+                env::prepaid_gas() - GAS_FOR_NFT_APPROVE,
+            )
+            .as_return();
+        }
     }
 
     //check if the passed in account has access to approve the token ID
