@@ -41,6 +41,28 @@ impl Contract {
             U128(0)
         }
     }
+    /*
+    //get the total voting power for a given owner
+    pub fn voting_power_for_owner(
+        &self,
+        account_id: AccountId,
+    ) -> (u128, u128) {
+        //get the set of tokens for the passed in owner
+        let tokens_for_owner_set = self.tokens_per_owner;
+        //trying to get total voting power for a given owner
+
+        //get voting power
+        let voting_power = 0;
+        let votes_available = 0;
+        if let Some(tokens_for_owner_set) = tokens_for_owner_set {
+            for token in tokens_for_owner_set {
+                voting_power += token.voting_power;
+                votes_available += token.votes_available;
+            }
+        };
+        (voting_power, votes_available)
+    }
+    */
 
     //Query for all the tokens for an owner
     pub fn nft_tokens_for_owner(

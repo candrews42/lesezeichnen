@@ -2,6 +2,7 @@ use crate::*;
 use near_sdk::{CryptoHash};
 use std::mem::size_of;
 use std::cmp::max;
+use std::println;
 
 //calculate how many bytes the account ID is taking up
 pub(crate) fn bytes_for_approved_account_id(account_id: &AccountId) -> u64 {
@@ -189,7 +190,9 @@ impl Contract {
         let new_token = Token {
             owner_id: receiver_id.clone(),
             //rating: token.rating.clone(),
+            voting_power: token.voting_power.clone(),
             votes_available: token.votes_available.clone(),
+            votes_cast: token.votes_cast.clone(),
             //reset the approval account IDs
             approved_account_ids: Default::default(),
             next_approval_id: token.next_approval_id,

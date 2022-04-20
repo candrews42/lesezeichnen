@@ -1,4 +1,5 @@
 use crate::*;
+use std::collections::btree_map::Entry;
 pub type TokenId = String;
 //defines the payout type we'll be returning as a part of the royalty standards.
 #[derive(Serialize, Deserialize)]
@@ -46,8 +47,10 @@ pub struct TokenMetadata {
 pub struct Token {
     //owner of the token
     pub owner_id: AccountId,
-    //pub rating: u8,
+    //setup votes available and vote tracking
+    pub voting_power: u8,
     pub votes_available: u8,
+    pub votes_cast: HashMap<String, u8>, //book, <votes, vote_value = sqrt>
     //list of approved account IDs that have access to transfer the token. This maps an account ID to an approval ID
     pub approved_account_ids: HashMap<AccountId, u64>,
     //the next approval ID to give out
@@ -63,8 +66,10 @@ pub struct JsonToken {
     pub token_id: TokenId,
     //owner of the token
     pub owner_id: AccountId,
-    //pub rating: u8,
+    //setup votes available and vote tracking
+    pub voting_power: u8,
     pub votes_available: u8,
+    pub votes_cast: HashMap<String, u8>, //book, <votes, vote_value = sqrt>
     //token metadata
     pub metadata: TokenMetadata,
     //list of approved account IDs that have access to transfer token

@@ -32,7 +32,7 @@ impl Contract {
         let valid_star_rating_min: u8 = 0;
         let valid_star_rating_max: u8 = 5;
         assert!(metadata.rating >= valid_star_rating_min && metadata.rating <= valid_star_rating_max, "Rating must be an integer 0 to 5");
-        let votes_available = if metadata.rating >= 2 {
+        let voting_power = if metadata.rating >= 2 {
             metadata.rating*metadata.rating - 1
         } else {metadata.rating};
         
@@ -42,7 +42,9 @@ impl Contract {
             owner_id: receiver_id, 
             //set the rating
             //rating: rating,
-            votes_available: votes_available,
+            voting_power: voting_power,
+            votes_available: voting_power,
+            votes_cast: Default::default(),
             //approved account IDs to the default value
             approved_account_ids: Default::default(),
             //next approval ID is set to 0
