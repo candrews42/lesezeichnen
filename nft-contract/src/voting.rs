@@ -1,4 +1,4 @@
-use crate::*;
+/* use crate::*;
 use near_sdk::{ext_contract, Gas};
 
 const GAS_FOR_VOTING: Gas = Gas(10_000_000_000_000);
@@ -70,7 +70,7 @@ impl VotingCore for Contract {
  */
     //vote on the next book to be read
     #[payable]
-    fn cast_votes(&mut self, token_id: TokenId, book_proposal: BookProposal, num_votes: u128, msg: Option<String>);
+    fn cast_votes(&mut self, token_id: TokenId, book_proposal: BookProposal, num_votes: u128, msg: Option<String>) {
         assert_at_least_one_yocto();
 
         //get the token object from the token Id
@@ -227,3 +227,4 @@ impl Default for Proposals {
         }
     }
 } */
+ */
