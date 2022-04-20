@@ -188,7 +188,7 @@ impl Contract {
         //we create a new token struct
         let new_token = Token {
             owner_id: receiver_id.clone(),
-            rating: token.rating.clone(),
+            //rating: token.rating.clone(),
             votes_available: token.votes_available.clone(),
             //reset the approval account IDs
             approved_account_ids: Default::default(),

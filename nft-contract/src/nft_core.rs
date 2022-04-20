@@ -189,7 +189,7 @@ impl NonFungibleTokenCore for Contract {
             Some(JsonToken {
                 token_id,
                 owner_id: token.owner_id,
-                rating: token.rating,
+                //rating: token.rating,
                 votes_available: token.votes_available,
                 metadata,
                 approved_account_ids: token.approved_account_ids,

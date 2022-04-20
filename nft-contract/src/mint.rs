@@ -1,5 +1,4 @@
 use crate::*;
-use std::println;
 
 #[near_bindgen]
 impl Contract {
@@ -7,7 +6,7 @@ impl Contract {
     pub fn nft_mint(
         &mut self,
         token_id: TokenId,
-        rating: u8,
+        //rating: u8,
         metadata: TokenMetadata,
         receiver_id: AccountId,
         perpetual_royalties: Option<HashMap<AccountId, u32>>,
@@ -30,18 +29,19 @@ impl Contract {
         }
         
         //check if valid rating between 0 and 5
-        let valid_star_ratings = 0..5;
-        assert!(valid_star_ratings.contains(&rating), "Rating must be an integer 0 to 5");
-        let votes_available = if rating >= 2 {
-            rating*rating - 1
-        } else {rating};
+        let valid_star_rating_min: u8 = 0;
+        let valid_star_rating_max: u8 = 5;
+        assert!(metadata.rating >= valid_star_rating_min && metadata.rating <= valid_star_rating_max, "Rating must be an integer 0 to 5");
+        let votes_available = if metadata.rating >= 2 {
+            metadata.rating*metadata.rating - 1
+        } else {metadata.rating};
         
         //specify the token struct that contains the owner ID
         let token = Token {
             //set the owner ID equal to the receiever ID passed into the function
             owner_id: receiver_id, 
             //set the rating
-            rating: rating,
+            //rating: rating,
             votes_available: votes_available,
             //approved account IDs to the default value
             approved_account_ids: Default::default(),
