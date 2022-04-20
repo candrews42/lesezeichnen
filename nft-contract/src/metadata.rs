@@ -23,6 +23,10 @@ pub struct NFTContractMetadata {
 #[serde(crate = "near_sdk::serde")]
 pub struct TokenMetadata {
     pub title: Option<String>, //e.g. "bookmark 1"
+    pub book_name: Option<String>, //e.g. "The Left Hand of Darkness"
+    pub author: Option<String>, //e.g. "Ursula K. Le Guinn"
+    pub author_country: Option<String>, //e.g. "USA"
+    pub isbn: Option<String>, //e.g. 0012233334455
     pub description: Option<String>, //free-form description
     pub rating: Option<u8>, //rating on scale of 1 to 5
     pub media: Option<String>, //URL to associated media
@@ -41,6 +45,8 @@ pub struct TokenMetadata {
 pub struct Token {
     //owner of the token
     pub owner_id: AccountId,
+    pub rating: u8,
+    pub votes_available: u8,
     //list of approved account IDs that have access to transfer the token. This maps an account ID to an approval ID
     pub approved_account_ids: HashMap<AccountId, u64>,
     //the next approval ID to give out
@@ -56,6 +62,8 @@ pub struct JsonToken {
     pub token_id: TokenId,
     //owner of the token
     pub owner_id: AccountId,
+    pub rating: u8,
+    pub votes_available: u8,
     //token metadata
     pub metadata: TokenMetadata,
     //list of approved account IDs that have access to transfer token

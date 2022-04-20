@@ -25,7 +25,7 @@ impl NonFungibleTokenCore for Contract {
         let token = self.tokens_by_id.get(&token_id).expect("No token");
 
         //get the owner of the token
-        let owner_id = token.owner_id
+        let owner_id = token.owner_id;
         //keep track of the total perpectual royalties
         let mut total_perpetual = 0;
         //get the u128 version of the passed in balance (which was U128 before)
@@ -38,7 +38,7 @@ impl NonFungibleTokenCore for Contract {
         let royalty = token.royalty;
 
         //make sure we're not paying out too many people (GAS limits this)
-        assert!(royalty.len() as u32 <= max_len_payout, "Market cannot payout to that many receivers")
+        assert!(royalty.len() as u32 <= max_len_payout, "Market cannot payout to that many receivers");
         
         //go through each key and value in the royalty object
         for (k,v) in royalty.iter() {
@@ -52,7 +52,7 @@ impl NonFungibleTokenCore for Contract {
         }
 
         //payout to previous owner who gets 100% - total perpetual royalties
-        payout_object.payout.insert(owner_id, royalty_to_payout(10000 - total_perpectual, balance_u128));
+        payout_object.payout.insert(owner_id, royalty_to_payout(10000 - total_perpetual, balance_u128));
 
         //return the payout object
         payout_object
@@ -83,7 +83,7 @@ impl NonFungibleTokenCore for Contract {
 
         //refund teh previous token owner for th estorage
         refund_approved_account_ids(
-            previous_token.owner_id.clone()
+            previous_token.owner_id.clone(),
             &previous_token.approved_account_ids
         );
 
@@ -106,7 +106,7 @@ impl NonFungibleTokenCore for Contract {
         //go through each key and value in the royalty object
         for (k, v) in royalty.iter() {
             //get the key
-            let key = k.clone()
+            let key = k.clone();
             //only insert into the payout if the key isn't the token owner (add payout later)
             if key != owner_id {
                 payout_object.payout.insert(key, royalty_to_payout(*v, balance_u128));

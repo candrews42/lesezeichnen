@@ -13,6 +13,7 @@ pub use crate::mint::*;
 pub use crate::nft_core::*;
 pub use crate::approval::*;
 pub use crate::royalty::*;
+pub use crate::events::*;
 
 mod internal;
 mod approval; 
@@ -21,6 +22,12 @@ mod metadata;
 mod mint; 
 mod nft_core; 
 mod royalty; 
+mod events;
+
+/// This spec can be treated like a version of the standard.
+pub const NFT_METADATA_SPEC: &str = "1.0.0";
+/// This is the name of the NFT standard we're using
+pub const NFT_STANDARD_NAME: &str = "nep171";
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
@@ -61,12 +68,20 @@ impl Contract {
         this initializes the contract with default metadata so the
         user doesn't have to manually type metadata.
     */
+    #[private]
+    #[init(ignore_state)]
+    pub fn clean(keys: Vec<Base64VecU8>) {
+        for key in keys.iter() {
+            env::storage_remove(&key.0);
+        }
+    }
+
     #[init]
     pub fn new_default_meta(owner_id: AccountId) -> Self {
         Self::new(
             owner_id,
             NFTContractMetadata {
-                spec: "nft-1.0.0".to_string(),
+                spec: "lesezeichnen-1.0.0".to_string(),
                 name: "lesezeichnen".to_string(),
                 symbol: "LESEN".to_string(),
                 icon: None,
