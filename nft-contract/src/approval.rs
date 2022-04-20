@@ -1,10 +1,12 @@
 use crate::*;
 use near_sdk::{ext_contract, Gas};
+use std::println;
 
 const GAS_FOR_NFT_APPROVE: Gas = Gas(10_000_000_000_000);
 const NO_DEPOSIT: Balance = 0;
 
 pub trait NonFungibleTokenCore {
+    //fn cast_votes(&mut self, token_id: TokenId, book_name: String, num_votes: u64, msg: Option<String>);
     //approve an account ID to transfer a token on your behalf
     fn nft_approve(&mut self, token_id: TokenId, account_id: AccountId, msg: Option<String>);
 
@@ -37,6 +39,61 @@ trait NonFungibleTokenApprovalsReceiver {
 
 #[near_bindgen]
 impl NonFungibleTokenCore for Contract {
+
+    /* #[payable]
+    fn cast_votes(&mut self, token_id: TokenId, book_name: String, num_votes: u64, msg: Option<String>) {
+        assert_at_least_one_yocto();
+
+        //get the token object from the token Id
+        let mut token = self.tokens_by_id.get(&token_id).expect("No token");
+
+        //make sure person calling function is the owner
+        assert_eq!(
+            &env::predecessor_account_id(),
+            &token.owner_id,
+            "Predecessor must be the token owner."
+        );
+
+        //check if the book has been voted on already
+        let is_new_vote_cast = token
+            .votes_cast
+            //insert returns none if the key was not present
+            .insert(book_name.clone(), num_votes)
+            //if the key was not present, .is_none() will return true so it is a new vote
+            .is_none();
+
+        //if it was a new vote to the proposal, calculate how much storage is being used
+        let storage_used = if is_new_vote_cast {
+            bytes_for_vote_cast(book_name.clone())
+        } else {
+            0
+        };
+        
+        //if votes available >= votes cast
+        //decrement the number of votes available
+        token.votes_cast.insert(book_name.clone(), num_votes);
+        token.votes_available -= num_votes;
+
+        //insert the token back into the tokens_by_id collection
+        self.tokens_by_id.insert(&token_id, &token);
+
+        //refund any excess storage atteched by the user, or panic
+        refund_deposit(storage_used);
+ */
+        //if some message was passed into the function, initiate a cross contract call on the account we're giving access
+        /* if let Some(msg) = msg {
+            ext_non_fungible_approval_receiver::on_cast_vote(
+                token_id,
+                token.owner_id,
+                book_proposal,
+                msg,
+                account_id,
+                NO_DEPOSIT,
+                env::prepaid_gas() - GAS_FOR_NFT_APPROVE,
+            )
+            .as_return();
+        } */ 
+    //}
 
     //allow a specific account ID to approve a token on your behalf
     #[payable]

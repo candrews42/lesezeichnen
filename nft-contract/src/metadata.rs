@@ -29,7 +29,7 @@ pub struct TokenMetadata {
     pub isbn: Option<String>, //e.g. 0012233334455
     pub recommended_by: Option<String>,
     pub description: Option<String>, //free-form description
-    pub rating: u8, //rating on scale of 1 to 5
+    pub rating: u64, //rating on scale of 1 to 5
     pub media: Option<String>, //URL to associated media
     pub media_hash: Option<Base64VecU8>, //hash of media field
     pub copies: Option<u64>, //number of copies when minted
@@ -47,9 +47,9 @@ pub struct Token {
     //owner of the token
     pub owner_id: AccountId,
     //setup votes available and vote tracking
-    pub voting_power: u8,
-    pub votes_available: u8,
-    pub votes_cast: HashMap<String, u8>, //book, <votes, vote_value = sqrt>
+    pub voting_power: u64,
+    pub votes_available: u64,
+    pub votes_cast: HashMap<String, u64>, //book, <votes, vote_value = sqrt>
     //list of approved account IDs that have access to transfer the token. This maps an account ID to an approval ID
     pub approved_account_ids: HashMap<AccountId, u64>,
     //the next approval ID to give out
@@ -66,9 +66,9 @@ pub struct JsonToken {
     //owner of the token
     pub owner_id: AccountId,
     //setup votes available and vote tracking
-    pub voting_power: u8,
-    pub votes_available: u8,
-    pub votes_cast: HashMap<String, u8>, //book, <votes, vote_value = sqrt>
+    pub voting_power: u64,
+    pub votes_available: u64,
+    pub votes_cast: HashMap<String, u64>, //book, <votes, vote_value = sqrt>
     //token metadata
     pub metadata: TokenMetadata,
     //list of approved account IDs that have access to transfer token

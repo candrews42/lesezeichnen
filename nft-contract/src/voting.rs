@@ -1,4 +1,4 @@
-/* use crate::*;
+use crate::*;
 use near_sdk::{ext_contract, Gas};
 
 const GAS_FOR_VOTING: Gas = Gas(10_000_000_000_000);
@@ -9,7 +9,7 @@ pub trait VotingCore {
     //fn create_proposal(&mut self, token_id: TokenId, book_proposal: String, msg: Option<String>);
 
     //vote on the next book to be read
-    fn cast_votes(&mut self, token_id: TokenId, book_proposal: String, num_votes: u128, msg: Option<String>);
+    pub fn cast_votes(&mut self, token_id: TokenId, book_proposal: String, num_votes: u128, msg: Option<String>);
 
     /*
     //check if the passed in account has enough voting power to cast vote
@@ -70,7 +70,7 @@ impl VotingCore for Contract {
  */
     //vote on the next book to be read
     #[payable]
-    fn cast_votes(&mut self, token_id: TokenId, book_proposal: BookProposal, num_votes: u128, msg: Option<String>) {
+    pub fn cast_votes(&mut self, token_id: TokenId, book_proposal: BookProposal, num_votes: u128, msg: Option<String>) {
         assert_at_least_one_yocto();
 
         //get the token object from the token Id
@@ -111,7 +111,7 @@ impl VotingCore for Contract {
         //refund any excess storage atteched by the user, or panic
         refund_deposit(storage_used);
 
-        //if some message was passed into the function, initiate a cross contract call on the account we're giving access
+        /* //if some message was passed into the function, initiate a cross contract call on the account we're giving access
         if let Some(msg) = msg {
             ext_non_fungible_approval_receiver::nft_on_vote(
                 token_id,
@@ -123,7 +123,7 @@ impl VotingCore for Contract {
                 env::prepaid_gas() - GAS_FOR_NFT_APPROVE,
             )
             .as_return();
-        }
+        } */
     }
 
     /* //check if the passed in account has enough voting power to cast vote
@@ -227,4 +227,3 @@ impl Default for Proposals {
         }
     }
 } */
- */
