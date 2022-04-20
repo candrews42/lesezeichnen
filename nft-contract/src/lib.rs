@@ -111,6 +111,7 @@ impl Contract {
                 StorageKey::NFTContractMetadata.try_to_vec().unwrap(),
                 Some(&metadata),
             ),
+            //proposals = HashMap::new(0)
         };
         //return the Contract object
         this

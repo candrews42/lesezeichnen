@@ -1,13 +1,16 @@
 use crate::*;
 use near_sdk::{CryptoHash};
 use std::mem::size_of;
-use std::cmp::max;
-use std::println;
 
 //calculate how many bytes the account ID is taking up
 pub(crate) fn bytes_for_approved_account_id(account_id: &AccountId) -> u64 {
     //the extra 4 bytes are coming from Borsch serialization to store the length of the string
     account_id.as_str().len() as u64 + 4 + size_of::<u64>() as u64
+}
+//calculate how many bytes the vote is taking up
+pub(crate) fn bytes_for_vote_cast(book_proposal: BookProposal) -> u64 {
+    //the extra 4 bytes are coming from Borsch serialization to store the length of the string
+    book_proposal.book_name.len() as u64 + 4 + size_of::<u64>() as u64
 }
 
 //refund the storage taken up by passed in approved account IDs and send the funds to the passed in account ID

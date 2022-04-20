@@ -1,5 +1,4 @@
 use crate::*;
-use std::collections::btree_map::Entry;
 pub type TokenId = String;
 //defines the payout type we'll be returning as a part of the royalty standards.
 #[derive(Serialize, Deserialize)]
@@ -76,6 +75,23 @@ pub struct JsonToken {
     pub approved_account_ids: HashMap<AccountId, u64>,
     pub royalty: HashMap<AccountId, u32>
 }
+
+#[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize)]
+#[serde(crate = "near_sdk::serde")]
+pub struct BookProposal {
+    pub book_name: String, //e.g. "The Left Hand of Darkness"
+    pub author: Option<String>, //e.g. "Ursula K. Le Guinn"
+    pub author_country: Option<String>, //e.g. "USA"
+    pub isbn: Option<String>, //e.g. 0012233334455
+    pub recommended_by: Option<String>,
+    pub description: Option<String>, //free-form description
+}
+
+/* #[near_bindgen]
+#[derive(BorshDeserialize, BorshSerialize)]
+pub struct Proposals{
+    proposals: HashMap<String, BookProposal> // key is the proposal name
+} */
 
 pub trait NonFungibleTokenMetadata {
     //view call for returning the contract metadata
