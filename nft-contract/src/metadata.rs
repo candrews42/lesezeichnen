@@ -27,6 +27,7 @@ pub struct TokenMetadata {
     pub author: Option<String>, //e.g. "Ursula K. Le Guinn"
     pub author_country: Option<String>, //e.g. "USA"
     pub isbn: Option<String>, //e.g. 0012233334455
+    pub artist: Option<String>,
     pub recommended_by: Option<String>,
     pub description: Option<String>, //free-form description
     pub rating: u64, //rating on scale of 1 to 5
