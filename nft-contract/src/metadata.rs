@@ -1,4 +1,5 @@
 use crate::*;
+use chrono::{DateTime, Utc};
 pub type TokenId = String;
 //defines the payout type we'll be returning as a part of the royalty standards.
 #[derive(Serialize, Deserialize)]
@@ -26,11 +27,15 @@ pub struct TokenMetadata {
     pub book_name: Option<String>, //e.g. "The Left Hand of Darkness"
     pub author: Option<String>, //e.g. "Ursula K. Le Guinn"
     pub author_country: Option<String>, //e.g. "USA"
+    pub author_gender: Option<String>, //e.g. "female"
+    pub format: Option<String>, //e.g. "e-book", "book", "audiobook"
     pub isbn: Option<String>, //e.g. 0012233334455
-    pub artist: Option<String>,
-    pub recommended_by: Option<String>,
-    pub description: Option<String>, //free-form description
     pub rating: u64, //rating on scale of 1 to 5
+    pub artist: Option<String>, //bookmark artist
+    pub num_pages: Option<u64>, //number of pages in the book
+    pub date_finished: Option<String>, //date book finished
+    pub recommended_by: Option<String>, //person who recommended book
+    pub description: Option<String>, //free-form description
     pub media: Option<String>, //URL to associated media
     pub media_hash: Option<Base64VecU8>, //hash of media field
     pub copies: Option<u64>, //number of copies when minted

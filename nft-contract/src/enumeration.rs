@@ -25,6 +25,34 @@ impl Contract {
             .collect()
     }
 
+    //Query for vote totals for each book
+    pub fn next_book_votes(&self, from_index: Option<U128>, min_votes: Option<u64>, limit: Option<u64>) -> HashMap<String, u64> {
+        //where to start pagination - if we have a from_index, we'll use that - otherwise start from 0
+        let start = u128::from(from_index.unwrap_or(U128(0)));
+        
+        //get all tokens
+        let tokens: Vec<JsonToken> = self.token_metadata_by_id.keys()
+            //skip to the index specified
+            .skip(start as usize)
+            //we'll map the token IDs which are strings into Json Tokens
+            .map(|token_id| self.nft_token(token_id.clone()).unwrap())
+            //since we turned the keys into an iterator, we need to turn it back into a vector to return
+            .collect();
+
+        //create a hashmap of votes cast
+        let mut votes_cast: HashMap<String, u64> = HashMap::new();
+
+        //iterate through tokens and create master
+        for token in tokens.iter() {
+            for (k, v) in &token.votes_cast {
+                //get previous value, add value to it if it exists
+                *votes_cast.entry(k.to_string()).or_insert(0) += v;
+            }
+        }
+
+        votes_cast
+    }
+
     //get the total supply of NFTs for a given owner
     pub fn nft_supply_for_owner(
         &self,
