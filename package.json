@@ -1,10 +1,27 @@
 {
-    "name": "nft-tutorial",
-    "version": "1.0.0",
-    "description": "Zero to Hero NFT Tutorial",
-    "author": "Ben Kurrek",
-    "license": "ISC",
-    "scripts": {
-        "build": "cd nft-contract && bash build.sh && cd ../.."
-    }
+  "name": "lesezeichnen",
+  "version": "2.0.0",
+  "description": "Book Bookmark NFT Platform - Track books, mint bookmark NFTs, and vote on next reads",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "bot": "npm run dev --workspace=packages/bot",
+    "web": "npm run dev --workspace=packages/web",
+    "db:migrate": "supabase db push",
+    "db:generate": "supabase gen types typescript --local > packages/shared/src/database.types.ts"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "npm@10.0.0"
 }
