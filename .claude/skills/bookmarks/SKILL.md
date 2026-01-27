@@ -335,6 +335,37 @@ python scripts/bookmarks.py recent --limit 5
 
 ---
 
+## Web View URLs
+
+After successful operations, include a link to view the collection or bookmark on the web.
+
+**Base URL:** `https://lesezeichnen.vercel.app` (or localhost:3000 for development)
+
+| View | URL Pattern |
+|------|-------------|
+| User's collection | `/u/{user_id}` |
+| Single bookmark | `/b/{bookmark_id}` |
+
+**After mint:**
+```
+✅ Bookmark created for "Dune"!
+
+View your collection: https://lesezeichnen.vercel.app/u/{user_id}
+View this bookmark: https://lesezeichnen.vercel.app/b/{bookmark_id}
+```
+
+**After view:**
+```
+📚 Your bookmarks (12 total):
+...
+
+View online: https://lesezeichnen.vercel.app/u/{user_id}
+```
+
+**Note:** Get the user_id from the `LESEZEICHNEN_USER_ID` environment variable. Get bookmark_id from the CLI response after mint.
+
+---
+
 ## Error Handling
 
 | Situation | Response |
