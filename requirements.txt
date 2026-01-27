@@ -1,0 +1,7 @@
+# Lesezeichnen Python Dependencies
+
+# Supabase client
+supabase>=2.0.0
+
+# For future voice transcription (optional)
+# openai>=1.0.0
