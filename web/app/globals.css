@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0f;
+  --foreground: #e5e5e5;
+  --gold: #d4a574;
+  --gold-dark: #8b6914;
+  --card-bg: #12121a;
+  --border: #2a2a3a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+/* RPG Card Styles */
+.rpg-card {
+  background: linear-gradient(135deg, var(--card-bg) 0%, #1a1a2e 100%);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(212, 165, 116, 0.1),
+    inset 0 0 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.rpg-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  border-radius: 6px;
+  margin: 4px;
+  pointer-events: none;
+}
+
+.rpg-card-header {
+  background: linear-gradient(180deg, rgba(212, 165, 116, 0.15) 0%, transparent 100%);
+  padding: 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.rpg-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 0.25rem;
+}
+
+.rpg-subtitle {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.rpg-card-body {
+  padding: 1.5rem;
+}
+
+.rpg-card-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.rpg-image-frame {
+  width: 200px;
+  height: 280px;
+  border: 3px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  background: #0a0a0f;
+}
+
+.rpg-stat-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.rpg-stat-label {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 0.25rem;
+}
+
+.rpg-stat-value {
+  display: block;
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.rpg-section {
+  margin-top: 1rem;
+}
+
+.rpg-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.rpg-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0.5rem 0;
+}
+
+.rpg-attribute {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.875rem;
+  padding: 0.25rem 0;
+}
+
+.rpg-attribute dt {
+  color: #9ca3af;
+}
+
+.rpg-attribute dd {
+  color: var(--foreground);
+  text-align: right;
+}
+
+/* Utility Classes */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Page Container */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* Loading State */
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
