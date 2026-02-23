@@ -39,7 +39,7 @@ function SortButton({ field, label, currentField, direction, onSort }: SortButto
 
 export function BookmarkTable({ bookmarks }: BookmarkTableProps) {
   const [search, setSearch] = useState('');
-  const [sortField, setSortField] = useState<SortField>('created_at');
+  const [sortField, setSortField] = useState<SortField>('date_finished');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
   const filteredAndSorted = useMemo(() => {
@@ -55,8 +55,15 @@ export function BookmarkTable({ bookmarks }: BookmarkTableProps) {
       );
     }
 
-    // Sort
+    // Sort (always prioritize entries with a front image)
     result.sort((a, b) => {
+      const aHasMedia = Boolean(a.media_url);
+      const bHasMedia = Boolean(b.media_url);
+
+      if (aHasMedia !== bHasMedia) {
+        return aHasMedia ? -1 : 1;
+      }
+
       let aVal: string | number | null = null;
       let bVal: string | number | null = null;
 
@@ -117,6 +124,7 @@ export function BookmarkTable({ bookmarks }: BookmarkTableProps) {
           <SortButton field="book_name" label="Title" currentField={sortField} direction={sortDirection} onSort={handleSort} />
           <SortButton field="author" label="Author" currentField={sortField} direction={sortDirection} onSort={handleSort} />
           <SortButton field="rating" label="Rating" currentField={sortField} direction={sortDirection} onSort={handleSort} />
+          <SortButton field="date_finished" label="Finished" currentField={sortField} direction={sortDirection} onSort={handleSort} />
           <SortButton field="created_at" label="Added" currentField={sortField} direction={sortDirection} onSort={handleSort} />
         </div>
       </div>
